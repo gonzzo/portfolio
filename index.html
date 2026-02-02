@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gonzalo Combarros — Senior Firmware / Embedded Engineer</title>
+  <meta name="description" content="Senior Firmware / Embedded Engineer focused on IoT, architecture, and production-grade firmware." />
+  <meta name="theme-color" content="#2F3E4E" />
+
+  <!-- Open Graph (nice preview when you paste the link in LinkedIn) -->
+  <meta property="og:title" content="Gonzalo Combarros — Senior Firmware / Embedded Engineer" />
+  <meta property="og:description" content="IoT · Architecture · Production — production-grade firmware, OTA lifecycles, and technical leadership." />
+  <meta property="og:type" content="website" />
+  <!-- Optional: add an og:image once you have a banner image hosted -->
+  <!-- <meta property="og:image" content="https://YOUR-DOMAIN/og-banner.png" /> -->
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: rgba(255, 255, 255, 0.06);
+      --card2: rgba(255, 255, 255, 0.08);
+      --text: rgba(255, 255, 255, 0.92);
+      --muted: rgba(255, 255, 255, 0.70);
+      --muted2: rgba(255, 255, 255, 0.55);
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #2F3E4E;
+      --accent2: #7aa7c7;
+      --good: #7dd3a9;
+      --warn: #ffd58a;
+
+      --radius: 18px;
+      --shadow: 0 16px 40px rgba(0,0,0,.45);
+      --max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(122,167,199,.25), transparent 60%),
+                  radial-gradient(1000px 500px at 80% 20%, rgba(47,62,78,.35), transparent 60%),
+                  linear-gradient(180deg, #070a0f, #0b0f14 45%, #070a0f);
+      line-height: 1.45;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 64px;
+    }
+
+    /* Top nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(0,0,0,.25);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent2), var(--accent));
+      box-shadow: 0 0 0 4px rgba(122,167,199,.12);
+    }
+    .navlinks {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .navlinks a {
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .navlinks a:hover {
+      background: rgba(255,255,255,.06);
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 22px;
+      padding: 28px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(600px 240px at 15% 15%, rgba(122,167,199,.16), transparent 55%),
+                  radial-gradient(800px 280px at 85% 25%, rgba(47,62,78,.18), transparent 55%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(28px, 3.2vw, 42px);
+      letter-spacing: -0.4px;
+      line-height: 1.12;
+      position: relative;
+    }
+    .hero p {
+      margin: 12px 0 0;
+      max-width: 70ch;
+      color: var(--muted);
+      position: relative;
+    }
+
+    .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      position: relative;
+    }
+    .chip {
+      font-size: 13px;
+      color: rgba(255,255,255,.84);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      position: relative;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: rgba(255,255,255,.10);
+      text-decoration: none;
+    }
+    .btn.primary {
+      border-color: rgba(122,167,199,.35);
+      background: linear-gradient(180deg, rgba(122,167,199,.22), rgba(47,62,78,.30));
+    }
+
+    /* Sections */
+    section {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+    }
+
+    .title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .sub {
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 880px) {
+      .grid { grid-template-columns: 1fr; }
+      .nav { position: static; }
+    }
+
+    .card {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+    }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (max-width: 880px) { .kpi { grid-template-columns: 1fr; } }
+
+    .k {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.18));
+    }
+    .k .n { font-size: 20px; font-weight: 800; letter-spacing: -.2px; }
+    .k .l { font-size: 12px; color: var(--muted2); margin-top: 4px; }
+
+    ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+    li { margin: 6px 0; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag { font-size: 12px; border: 1px solid rgba(255,255,255,.12); padding: 6px 8px; border-radius: 999px; color: rgba(255,255,255,.78); }
+
+    .footer {
+      margin-top: 18px;
+      padding: 16px;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    /* Simple privacy-friendly analytics placeholder */
+    .note {
+      font-size: 12px;
+      color: var(--muted2);
+      border-left: 3px solid rgba(122,167,199,.35);
+      padding-left: 10px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="nav" aria-label="Primary">
+      <div class="brand"><span class="dot" aria-hidden="true"></span> Gonzalo Combarros</div>
+      <nav class="navlinks">
+        <a href="#highlights">Highlights</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#work">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero" id="top">
+        <h1>Senior Firmware / Embedded Engineer</h1>
+        <p>
+          IoT · Architecture · Production — I build production-grade firmware foundations that scale from prototypes to deployed devices,
+          with a strong focus on reliability, maintainability, and long-term product evolution.
+        </p>
+
+        <div class="chips" aria-label="Key themes">
+          <span class="chip">Production firmware</span>
+          <span class="chip">Embedded architecture</span>
+          <span class="chip">Manufacturing & field support</span>
+          <span class="chip">Algorithm integration</span>
+          <span class="chip">Tooling & automation</span>
+        </div>
+
+        <div class="cta" aria-label="Primary actions">
+          <!-- Replace # with your real URLs -->
+          <a class="btn primary" href="#contact">Get in touch</a>
+          <a class="btn" href="#work">View experience</a>
+          <a class="btn" href="#" title="Replace with your LinkedIn URL">LinkedIn</a>
+          <a class="btn" href="#" title="Replace with your GitHub URL (optional)">GitHub</a>
+          <a class="btn" href="#" title="Replace with a PDF hosted on your site">CV (PDF)</a>
+        </div>
+
+        <div class="note">
+          Tip: host this page on GitHub Pages / Netlify and paste the URL into your LinkedIn profile and CV.
+        </div>
+      </div>
+
+      <section id="highlights">
+        <div class="title">
+          <h2>Highlights</h2>
+          <div class="sub">What I bring to product teams</div>
+        </div>
+
+        <div class="kpi" role="list">
+          <div class="k" role="listitem">
+            <div class="n">Production</div>
+            <div class="l">Shipped firmware for commercially deployed devices; comfortable with manufacturing and field realities.</div>
+          </div>
+          <div class="k" role="listitem">
+            <div class="n">Architecture</div>
+            <div class="l">System-level ownership: scalable firmware foundations, extensible command infrastructures, long-term maintainability.</div>
+          </div>
+          <div class="k" role="listitem">
+            <div class="n">Leadership</div>
+            <div class="l">Hands-on technical leadership: cross-team alignment, decision-making, and quality standards.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="capabilities">
+        <div class="title">
+          <h2>Capabilities</h2>
+          <div class="sub">A quick, recruiter-friendly snapshot</div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:15px;">Core focus</h3>
+            <ul>
+              <li>Embedded firmware development in <span class="mono">C/C++</span> for microcontroller-based products</li>
+              <li>Embedded system architecture (task design, state machines, inter-module communication)</li>
+              <li>Production readiness: validation, manufacturing ramp-up, field issue analysis</li>
+              <li>Algorithm integration supported by simulation, data logging, and analysis workflows</li>
+            </ul>
+            <div class="tags" aria-label="Keywords">
+              <span class="tag">Firmware</span>
+              <span class="tag">Embedded Systems</span>
+              <span class="tag">IoT</span>
+              <span class="tag">Production</span>
+              <span class="tag">Tooling</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:15px;">What you can link here</h3>
+            <ul>
+              <li>1–2 short public write-ups: architecture approach, OTA strategy (no confidential details)</li>
+              <li>Open-source tooling (optional): small parsers, log analyzers, test harnesses</li>
+              <li>A mini demo: data pipeline example, plotting + validation workflow</li>
+            </ul>
+            <div class="note">
+              Keep it simple: one strong demo beats five half-finished repos.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="title">
+          <h2>Experience</h2>
+          <div class="sub">Selected roles (details available on request)</div>
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr;">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+              <div>
+                <div style="font-weight:800;">Welltech Sleep Electronics</div>
+                <div style="color:var(--muted); font-size:13px;">Senior Firmware / Embedded Systems Engineer · Spain · Remote-friendly</div>
+              </div>
+              <div style="color:var(--muted2); font-size:12px;">Nov 2021 – Present</div>
+            </div>
+            <ul>
+              <li>Principal firmware engineer owning production firmware foundations for consumer IoT devices.</li>
+              <li>Production lifecycle ownership: validation, manufacturing support, deployment, and field issue resolution.</li>
+              <li>Algorithm integration into embedded firmware, supported by simulation and data logging workflows.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+              <div>
+                <div style="font-weight:800;">Sistemas Digitales de Control 2002</div>
+                <div style="color:var(--muted); font-size:13px;">Embedded / Electronic Engineer – Production & Validation · Spain</div>
+              </div>
+              <div style="color:var(--muted2); font-size:12px;">Feb 2020 – Oct 2021</div>
+            </div>
+            <ul>
+              <li>Production engineering and electronic validation: acceptance testing, workflows, defect management.</li>
+              <li>Hardware troubleshooting, schematic review, and prototype PCB validation.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+              <div>
+                <div style="font-weight:800;">CTCR (Footwear Technology Center of La Rioja)</div>
+                <div style="color:var(--muted); font-size:13px;">R&D Embedded / Electronic Engineer · Spain</div>
+              </div>
+              <div style="color:var(--muted2); font-size:12px;">Oct 2016 – Nov 2019</div>
+            </div>
+            <ul>
+              <li>Embedded systems and electronics integration in industrial R&D environments.</li>
+              <li>Automation/robotics-related development, on-site deployment and validation.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="title">
+          <h2>Contact</h2>
+          <div class="sub">Fastest ways to reach me</div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <p style="margin:0; color:var(--muted);">
+              If you’re hiring for <b>Senior Firmware / Embedded</b> roles with product ownership and production responsibilities,
+              I’m happy to chat.
+            </p>
+            <div class="cta" style="margin-top:12px;">
+              <!-- Replace with your real contact details -->
+              <a class="btn primary" href="mailto:you@example.com">Email</a>
+              <a class="btn" href="#" title="Replace with your LinkedIn URL">LinkedIn</a>
+            </div>
+            <div class="note">Keep contact options minimal. Two buttons are enough.</div>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:15px;">Availability</h3>
+            <ul>
+              <li>Location: Spain (CET/CEST)</li>
+              <li>Open to remote roles across the EU</li>
+              <li>Languages: Spanish (native), English (professional)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">
+        <span class="mono">©</span> <span id="y"></span> Gonzalo Combarros · Built as a minimal technical portfolio
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Set year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Smooth scrolling (nice but optional)
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const el = document.querySelector(href);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>
