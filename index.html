@@ -320,6 +320,18 @@
     text-align: center;
     opacity: .95;
   }
+
+  .play-cta{
+    margin-top: var(--s5);
+    display: flex;
+    justify-content: center;
+  }
+
+  .play-cta .btn{
+    min-width: 160px;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
   
   .mono{
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -530,6 +542,10 @@
           </div>
         </div>
       </section>
+
+      <div class="play-cta" aria-label="Play a simple game">
+        <a class="btn primary" href="game.html">PLAY</a>
+      </div>
 
       <div class="footer">
         <span class="mono">©</span> <span id="y"></span> Gonzalo Combarros · Built as a minimal technical portfolio
