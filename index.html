@@ -5,570 +5,250 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gonzalo Combarros — Senior Firmware / Embedded Engineer</title>
   <meta name="description" content="Senior Firmware / Embedded Engineer focused on IoT, architecture, and production-grade firmware." />
-  <meta name="theme-color" content="#2F3E4E" />
+  <meta name="theme-color" content="#1f2937" />
 
-  <!-- Open Graph (nice preview when you paste the link in LinkedIn) -->
   <meta property="og:title" content="Gonzalo Combarros — Senior Firmware / Embedded Engineer" />
   <meta property="og:description" content="IoT · Architecture · Production — production-grade firmware, OTA lifecycles, and technical leadership." />
   <meta property="og:type" content="website" />
-  <!-- Optional: add an og:image once you have a banner image hosted -->
-  <!-- <meta property="og:image" content="https://YOUR-DOMAIN/og-banner.png" /> -->
 
-  <style>
-    :root{
-    /* Keep your palette but refine contrast */
-    --bg: #0b0f14;
-    --card: rgba(255,255,255,.06);
-    --card2: rgba(255,255,255,.09);
-    --text: rgba(255,255,255,.92);
-    --muted: rgba(255,255,255,.72);
-    --muted2: rgba(255,255,255,.56);
-    --line: rgba(255,255,255,.12);
-    --accent: #2F3E4E;
-    --accent2: #7aa7c7;
-  
-    --radius: 18px;
-    --shadow: 0 18px 50px rgba(0,0,0,.55);
-    --shadow2: 0 10px 24px rgba(0,0,0,.35);
-    --max: 1080px;
-  
-    /* New: spacing scale */
-    --s1: 8px;
-    --s2: 12px;
-    --s3: 16px;
-    --s4: 22px;
-    --s5: 28px;
-    --s6: 36px;
-  }
-  
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  html { scroll-behavior: smooth; }
-  
-  body{
-    margin: 0;
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
-    color: var(--text);
-    background:
-      radial-gradient(1200px 600px at 20% 10%, rgba(122,167,199,.22), transparent 60%),
-      radial-gradient(1000px 500px at 80% 20%, rgba(47,62,78,.30), transparent 60%),
-      linear-gradient(180deg, #070a0f, #0b0f14 45%, #070a0f);
-    line-height: 1.55;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-  }
-  
-  a{ color: inherit; text-decoration: none; }
-  a:hover{ text-decoration: none; }
-  
-  .wrap{
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: var(--s5) var(--s3) 72px;
-  }
-  
-  /* Nav: more “product” */
-  .nav{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap: var(--s2);
-    padding: 10px 12px;
-    border: 1px solid rgba(255,255,255,.14);
-    border-radius: 999px;
-    background: rgba(10,14,20,.55);
-    backdrop-filter: blur(14px);
-    box-shadow: var(--shadow2);
-    position: sticky;
-    top: 12px;
-    z-index: 10;
-  }
-  
-  .brand{
-    display:flex;
-    align-items:center;
-    gap: 10px;
-    font-weight: 720;
-    letter-spacing: .2px;
-  }
-  
-  .dot{
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, var(--accent2), var(--accent));
-    box-shadow: 0 0 0 5px rgba(122,167,199,.10);
-  }
-  
-  /* Nav links: pill hover */
-  .navlinks{
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content:flex-end;
-    font-size: 13.5px;
-    color: var(--muted);
-  }
-  .navlinks a{
-    padding: 7px 10px;
-    border-radius: 999px;
-    border: 1px solid transparent;
-    transition: background .15s ease, border-color .15s ease, color .15s ease;
-  }
-  .navlinks a:hover{
-    background: rgba(255,255,255,.07);
-    border-color: rgba(255,255,255,.10);
-    color: var(--text);
-  }
-  
-  /* Hero: cleaner, more contrast */
-  .hero{
-    margin-top: var(--s4);
-    padding: var(--s6) var(--s5);
-    border: 1px solid rgba(255,255,255,.13);
-    border-radius: calc(var(--radius) + 4px);
-    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .hero::before{
-    content:"";
-    position:absolute;
-    inset:-2px;
-    background:
-      radial-gradient(700px 280px at 15% 15%, rgba(122,167,199,.16), transparent 60%),
-      radial-gradient(900px 300px at 85% 25%, rgba(47,62,78,.16), transparent 60%);
-    pointer-events:none;
-  }
-  
-  .hero h1{
-    margin: 0;
-    font-size: clamp(30px, 3.4vw, 46px);
-    letter-spacing: -0.6px;
-    line-height: 1.08;
-  }
-  .hero p{
-    margin: var(--s2) 0 0;
-    max-width: 72ch;
-    color: var(--muted);
-  }
-  
-  /* Chips: tighter, nicer */
-  .chips{
-    display:flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: var(--s3);
-  }
-  .chip{
-    font-size: 12.5px;
-    color: rgba(255,255,255,.84);
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(0,0,0,.18);
-    padding: 8px 10px;
-    border-radius: 999px;
-  }
-  
-  /* Buttons: professional interactions */
-  .cta{
-    display:flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: var(--s4);
-  }
-  
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,.14);
-    background: rgba(255,255,255,.06);
-    color: var(--text);
-    font-weight: 650;
-    font-size: 14px;
-    cursor: pointer;
-    transition: transform .12s ease, background .12s ease, border-color .12s ease;
-  }
-  .btn:hover{
-    transform: translateY(-1px);
-    background: rgba(255,255,255,.10);
-    border-color: rgba(255,255,255,.18);
-  }
-  .btn:active{
-    transform: translateY(0px);
-  }
-  
-  .btn.primary{
-    border-color: rgba(122,167,199,.38);
-    background: linear-gradient(180deg, rgba(122,167,199,.22), rgba(47,62,78,.34));
-  }
-  .btn.primary:hover{
-    border-color: rgba(122,167,199,.55);
-  }
-  
-  /* Sections */
-  section{
-    margin-top: var(--s4);
-    padding: var(--s5);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: var(--radius);
-    background: rgba(255,255,255,.03);
-  }
-  
-  .title{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap: 12px;
-    padding-bottom: var(--s2);
-    border-bottom: 1px solid rgba(255,255,255,.08);
-  }
-  h2{
-    margin: 0;
-    font-size: 18px;
-    letter-spacing: .2px;
-  }
-  .sub{
-    color: var(--muted2);
-    font-size: 13px;
-  }
-  
-  .grid{
-    display:grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: var(--s3);
-    margin-top: var(--s4);
-  }
-  @media (max-width: 880px){
-    .grid{ grid-template-columns: 1fr; }
-    .nav{ position: static; }
-    .hero{ padding: var(--s5) var(--s4); }
-    section{ padding: var(--s4); }
-  }
-  
-  /* Cards */
-  .card{
-    padding: var(--s4);
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(10,14,20,.40);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 22px rgba(0,0,0,.30);
-  }
-  
-  /* KPI */
-  .kpi{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--s3);
-    margin-top: var(--s4);
-  }
-  @media (max-width: 880px){ .kpi{ grid-template-columns: 1fr; } }
-  
-  .k{
-    padding: var(--s4);
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(0,0,0,.18));
-  }
-  .k .n{
-    font-size: 20px;
-    font-weight: 850;
-    letter-spacing: -.2px;
-  }
-  .k .l{
-    font-size: 12.5px;
-    color: var(--muted2);
-    margin-top: 6px;
-  }
-  
-  /* Lists */
-  ul{ margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
-  li{ margin: 7px 0; }
-  
-  /* Tags */
-  .tags{ display:flex; flex-wrap:wrap; gap: 8px; margin-top: 12px; }
-  .tag{
-    font-size: 12px;
-    border: 1px solid rgba(255,255,255,.12);
-    padding: 6px 9px;
-    border-radius: 999px;
-    color: rgba(255,255,255,.78);
-    background: rgba(0,0,0,.14);
-  }
-  
-  /* Notes */
-  .note{
-    font-size: 12px;
-    color: var(--muted2);
-    border-left: 3px solid rgba(122,167,199,.35);
-    padding-left: 10px;
-    margin-top: 12px;
-  }
-  
-  /* Footer */
-  .footer{
-    margin-top: var(--s4);
-    padding: var(--s3);
-    color: var(--muted2);
-    font-size: 12px;
-    text-align: center;
-    opacity: .95;
-  }
-
-  .play-cta{
-    margin-top: var(--s5);
-    display: flex;
-    justify-content: center;
-  }
-
-  .play-cta .btn{
-    min-width: 160px;
-    font-size: 16px;
-    letter-spacing: 1px;
-  }
-  
-  .mono{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  }
-  
-  /* Accessibility: visible focus */
-  :focus-visible{
-    outline: 2px solid rgba(122,167,199,.70);
-    outline-offset: 3px;
-    border-radius: 12px;
-  }
-  
-  /* Motion: respect user preference */
-  @media (prefers-reduced-motion: reduce){
-    *{ transition: none !important; scroll-behavior: auto; }
-  }
-  
-  /* Print: clean output */
-  @media print{
-    body{ background: #fff; color:#111; }
-    .nav{ position: static; box-shadow: none; background:#fff; }
-    section, .hero, .card, .k{ box-shadow: none; background:#fff; border-color:#ddd; }
-    a{ text-decoration: underline; }
-  }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <div class="wrap">
-    <header class="nav" aria-label="Primary">
-      <div class="brand"><span class="dot" aria-hidden="true"></span> Gonzalo Combarros</div>
-      <nav class="navlinks">
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <span class="brand-name">Gonzalo Combarros</span>
+          <span class="brand-role">Senior Firmware / Embedded Engineer</span>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="Primary">
         <a href="#highlights">Highlights</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#work">Experience</a>
         <a href="#contact">Contact</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
-    <main>
-      <div class="hero" id="top">
-        <h1>Senior Firmware / Embedded Engineer</h1>
-        <p>
-          IoT · Architecture · Production — I build production-grade firmware foundations that scale from prototypes to deployed devices,
-          with a strong focus on reliability, maintainability, and long-term product evolution.
-        </p>
-
-        <div class="chips" aria-label="Key themes">
-          <span class="chip">Production firmware</span>
-          <span class="chip">Embedded architecture</span>
-          <span class="chip">Manufacturing & field support</span>
-          <span class="chip">Algorithm integration</span>
-          <span class="chip">Tooling & automation</span>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Firmware leadership · IoT · Architecture</p>
+          <h1>Build firmware that scales from prototype to production.</h1>
+          <p class="lead">
+            I lead embedded initiatives from architecture to deployment, combining systems thinking with hands-on delivery to ship
+            reliable, long-lived firmware.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#contact">Get in touch</a>
+            <a class="button ghost" href="#work">View experience</a>
+            <a class="button ghost" href="#" title="Replace with your LinkedIn URL">LinkedIn</a>
+            <a class="button ghost" href="#" title="Replace with your GitHub URL (optional)">GitHub</a>
+            <a class="button ghost" href="#" title="Replace with a PDF hosted on your site">CV (PDF)</a>
+          </div>
         </div>
-
-        <div class="cta" aria-label="Primary actions">
-          <!-- Replace # with your real URLs -->
-          <a class="btn primary" href="#contact">Get in touch</a>
-          <a class="btn" href="#work">View experience</a>
-          <a class="btn" href="#" title="Replace with your LinkedIn URL">LinkedIn</a>
-          <a class="btn" href="#" title="Replace with your GitHub URL (optional)">GitHub</a>
-          <a class="btn" href="#" title="Replace with a PDF hosted on your site">CV (PDF)</a>
-        </div>
-
-        <div class="note">
-          Tip: host this page on GitHub Pages / Netlify and paste the URL into your LinkedIn profile and CV.
+        <div class="hero-card">
+          <h2>At a glance</h2>
+          <div class="metrics">
+            <div>
+              <span class="metric-value">8+ years</span>
+              <span class="metric-label">Firmware & embedded delivery</span>
+            </div>
+            <div>
+              <span class="metric-value">Production</span>
+              <span class="metric-label">Shipped devices + manufacturing support</span>
+            </div>
+            <div>
+              <span class="metric-value">Leadership</span>
+              <span class="metric-label">Cross-team alignment & technical ownership</span>
+            </div>
+          </div>
+          <div class="pill-row" aria-label="Key themes">
+            <span>IoT systems</span>
+            <span>OTA lifecycle</span>
+            <span>Reliability</span>
+            <span>Tooling</span>
+          </div>
         </div>
       </div>
+    </section>
 
-      <section id="highlights">
-        <div class="title">
-          <h2>Highlights</h2>
-          <div class="sub">What I bring to product teams</div>
+    <section class="section" id="highlights">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Value proposition</p>
+            <h2>Highlights</h2>
+          </div>
+          <p class="section-subtitle">What I bring to product teams</p>
         </div>
 
-        <div class="kpi" role="list">
-          <div class="k" role="listitem">
-            <div class="n">Production</div>
-            <div class="l">Shipped firmware for commercially deployed devices; comfortable with manufacturing and field realities.</div>
-          </div>
-          <div class="k" role="listitem">
-            <div class="n">Architecture</div>
-            <div class="l">System-level ownership: scalable firmware foundations, extensible command infrastructures, long-term maintainability.</div>
-          </div>
-          <div class="k" role="listitem">
-            <div class="n">Leadership</div>
-            <div class="l">Hands-on technical leadership: cross-team alignment, decision-making, and quality standards.</div>
-          </div>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Production-ready firmware</h3>
+            <p>Shipped firmware for commercially deployed devices with a focus on manufacturability and long-term maintenance.</p>
+          </article>
+          <article class="card">
+            <h3>Systems architecture</h3>
+            <p>Own system-level design: state machines, modular services, and scalable communication frameworks.</p>
+          </article>
+          <article class="card">
+            <h3>Technical leadership</h3>
+            <p>Hands-on execution with cross-team alignment, documentation, and quality standards.</p>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="capabilities">
-        <div class="title">
-          <h2>Capabilities</h2>
-          <div class="sub">A quick, recruiter-friendly snapshot</div>
+    <section class="section" id="capabilities">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Capabilities</p>
+            <h2>Recruiter-friendly snapshot</h2>
+          </div>
+          <p class="section-subtitle">Skills and strengths in one view</p>
         </div>
 
-        <div class="grid">
-          <div class="card">
-            <h3 style="margin:0 0 8px; font-size:15px;">Core focus</h3>
+        <div class="split">
+          <article class="card">
+            <h3>Core focus</h3>
             <ul>
-              <li>Embedded firmware development in <span class="mono">C/C++</span> for microcontroller-based products</li>
-              <li>Embedded system architecture (task design, state machines, inter-module communication)</li>
-              <li>Production readiness: validation, manufacturing ramp-up, field issue analysis</li>
-              <li>Algorithm integration supported by simulation, data logging, and analysis workflows</li>
+              <li>Embedded firmware development in <span class="mono">C/C++</span> for microcontroller-based products.</li>
+              <li>Embedded system architecture: task design, state machines, and inter-module communication.</li>
+              <li>Production readiness: validation, manufacturing ramp-up, and field issue analysis.</li>
+              <li>Algorithm integration backed by simulation, data logging, and analysis workflows.</li>
             </ul>
-            <div class="tags" aria-label="Keywords">
-              <span class="tag">Firmware</span>
-              <span class="tag">Embedded Systems</span>
-              <span class="tag">IoT</span>
-              <span class="tag">Production</span>
-              <span class="tag">Tooling</span>
+            <div class="pill-row">
+              <span>Firmware</span>
+              <span>Embedded Systems</span>
+              <span>IoT</span>
+              <span>Production</span>
+              <span>Tooling</span>
             </div>
-          </div>
+          </article>
 
-          <div class="card">
-            <h3 style="margin:0 0 8px; font-size:15px;">What you can link here</h3>
+          <article class="card">
+            <h3>Portfolio links</h3>
             <ul>
-              <li>1–2 short public write-ups: architecture approach, OTA strategy (no confidential details)</li>
-              <li>Open-source tooling (optional): small parsers, log analyzers, test harnesses</li>
-              <li>A mini demo: data pipeline example, plotting + validation workflow</li>
+              <li>1–2 focused write-ups: architecture approach, OTA strategy (no confidential details).</li>
+              <li>Open-source tooling: parsers, log analyzers, test harnesses.</li>
+              <li>Mini demo: data pipeline example, plotting + validation workflow.</li>
             </ul>
-            <div class="note">
-              Keep it simple: one strong demo beats five half-finished repos.
-            </div>
+            <p class="callout">Keep it simple: one strong demo beats five half-finished repos.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Experience</p>
+            <h2>Selected roles</h2>
           </div>
-        </div>
-      </section>
-
-      <section id="work">
-        <div class="title">
-          <h2>Experience</h2>
-          <div class="sub">Selected roles (details available on request)</div>
+          <p class="section-subtitle">Details available on request</p>
         </div>
 
-        <div class="grid" style="grid-template-columns: 1fr;">
-          <div class="card">
-            <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-              <div>
-                <div style="font-weight:800;">Welltech Sleep Electronics</div>
-                <div style="color:var(--muted); font-size:13px;">Senior Firmware / Embedded Systems Engineer · Spain · Remote-friendly</div>
-              </div>
-              <div style="color:var(--muted2); font-size:12px;">Nov 2021 – Present</div>
+        <div class="stack">
+          <article class="card timeline">
+            <div>
+              <h3>Welltech Sleep Electronics</h3>
+              <p class="meta">Senior Firmware / Embedded Systems Engineer · Spain · Remote-friendly</p>
             </div>
+            <span class="date">Nov 2021 – Present</span>
             <ul>
               <li>Principal firmware engineer owning production firmware foundations for consumer IoT devices.</li>
               <li>Production lifecycle ownership: validation, manufacturing support, deployment, and field issue resolution.</li>
               <li>Algorithm integration into embedded firmware, supported by simulation and data logging workflows.</li>
             </ul>
-          </div>
+          </article>
 
-          <div class="card">
-            <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-              <div>
-                <div style="font-weight:800;">Sistemas Digitales de Control 2002</div>
-                <div style="color:var(--muted); font-size:13px;">Embedded / Electronic Engineer – Production & Validation · Spain</div>
-              </div>
-              <div style="color:var(--muted2); font-size:12px;">Feb 2020 – Oct 2021</div>
+          <article class="card timeline">
+            <div>
+              <h3>Sistemas Digitales de Control 2002</h3>
+              <p class="meta">Embedded / Electronic Engineer – Production & Validation · Spain</p>
             </div>
+            <span class="date">Feb 2020 – Oct 2021</span>
             <ul>
               <li>Production engineering and electronic validation: acceptance testing, workflows, defect management.</li>
               <li>Hardware troubleshooting, schematic review, and prototype PCB validation.</li>
             </ul>
-          </div>
+          </article>
 
-          <div class="card">
-            <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-              <div>
-                <div style="font-weight:800;">CTCR (Footwear Technology Center of La Rioja)</div>
-                <div style="color:var(--muted); font-size:13px;">R&D Embedded / Electronic Engineer · Spain</div>
-              </div>
-              <div style="color:var(--muted2); font-size:12px;">Oct 2016 – Nov 2019</div>
+          <article class="card timeline">
+            <div>
+              <h3>CTCR (Footwear Technology Center of La Rioja)</h3>
+              <p class="meta">R&amp;D Embedded / Electronic Engineer · Spain</p>
             </div>
+            <span class="date">Oct 2016 – Nov 2019</span>
             <ul>
-              <li>Embedded systems and electronics integration in industrial R&D environments.</li>
+              <li>Embedded systems and electronics integration in industrial R&amp;D environments.</li>
               <li>Automation/robotics-related development, on-site deployment and validation.</li>
             </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2>Let’s connect</h2>
           </div>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div class="title">
-          <h2>Contact</h2>
-          <div class="sub">Fastest ways to reach me</div>
+          <p class="section-subtitle">Fastest ways to reach me</p>
         </div>
 
-        <div class="grid">
-          <div class="card">
-            <p style="margin:0; color:var(--muted);">
-              If you’re hiring for <b>Senior Firmware / Embedded</b> roles with product ownership and production responsibilities,
+        <div class="split">
+          <article class="card">
+            <p class="lead">
+              If you’re hiring for <strong>Senior Firmware / Embedded</strong> roles with product ownership and production responsibilities,
               I’m happy to chat.
             </p>
-            <div class="cta" style="margin-top:12px;">
-              <!-- Replace with your real contact details -->
-              <a class="btn primary" href="mailto:you@example.com">Email</a>
-              <a class="btn" href="#" title="Replace with your LinkedIn URL">LinkedIn</a>
+            <div class="hero-actions">
+              <a class="button primary" href="mailto:you@example.com">Email</a>
+              <a class="button ghost" href="#" title="Replace with your LinkedIn URL">LinkedIn</a>
             </div>
-            <div class="note">Keep contact options minimal. Two buttons are enough.</div>
-          </div>
-          <div class="card">
-            <h3 style="margin:0 0 8px; font-size:15px;">Availability</h3>
+            <p class="callout">Keep contact options minimal. Two buttons are enough.</p>
+          </article>
+
+          <article class="card">
+            <h3>Availability</h3>
             <ul>
               <li>Location: Spain (CET/CEST)</li>
               <li>Open to remote roles across the EU</li>
               <li>Languages: Spanish (native), English (professional)</li>
             </ul>
-          </div>
+          </article>
         </div>
-      </section>
-
-      <div class="play-cta" aria-label="Play a simple game">
-        <a class="btn primary" href="game.html">PLAY</a>
       </div>
+    </section>
 
-      <div class="footer">
-        <span class="mono">©</span> <span id="y"></span> Gonzalo Combarros · Built as a minimal technical portfolio
+    <section class="section compact">
+      <div class="container center">
+        <p class="section-subtitle">Need a break? Play the mini game.</p>
+        <a class="button primary" href="game.html">Play</a>
       </div>
-    </main>
-  </div>
+    </section>
+  </main>
 
-  <script>
-    // Set year
-    document.getElementById('y').textContent = new Date().getFullYear();
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="y"></span> Gonzalo Combarros</span>
+      <span>Built as a minimal technical portfolio</span>
+    </div>
+  </footer>
 
-    // Smooth scrolling (nice but optional)
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        const href = a.getAttribute('href');
-        if (!href || href === '#') return;
-        const el = document.querySelector(href);
-        if (!el) return;
-        e.preventDefault();
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>
-<!-- force red -->
