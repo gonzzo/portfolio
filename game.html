@@ -3,204 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Juego rápido · Adivina el número</title>
-  <meta name="description" content="Un juego sencillo para adivinar un número del 1 al 20." />
-  <style>
-    :root{
-      --bg: #0b0f14;
-      --card: rgba(255,255,255,.06);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --accent: #7aa7c7;
-      --accent2: #2F3E4E;
-      --radius: 18px;
-      --shadow: 0 18px 50px rgba(0,0,0,.55);
-    }
-
-    *{ box-sizing: border-box; }
-    body{
-      margin: 0;
-      min-height: 100vh;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(1000px 500px at 20% 10%, rgba(122,167,199,.22), transparent 60%),
-        radial-gradient(900px 450px at 80% 25%, rgba(47,62,78,.30), transparent 60%),
-        linear-gradient(180deg, #070a0f, #0b0f14 45%, #070a0f);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .card{
-      max-width: 520px;
-      width: 100%;
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
-
-    h1{
-      margin: 0 0 8px;
-      font-size: clamp(24px, 3vw, 34px);
-    }
-
-    p{
-      margin: 0 0 18px;
-      color: var(--muted);
-    }
-
-    .row{
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    input{
-      flex: 1 1 120px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.35);
-      color: var(--text);
-      font-size: 15px;
-    }
-
-    button, .link{
-      appearance: none;
-      border: 1px solid rgba(255,255,255,.2);
-      background: linear-gradient(180deg, rgba(122,167,199,.22), rgba(47,62,78,.34));
-      color: var(--text);
-      font-weight: 700;
-      padding: 10px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform .12s ease, border-color .12s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button:hover, .link:hover{
-      transform: translateY(-1px);
-      border-color: rgba(122,167,199,.55);
-    }
-
-    .status{
-      margin-top: 16px;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(0,0,0,.35);
-      border: 1px solid rgba(255,255,255,.12);
-      min-height: 46px;
-      display: flex;
-      align-items: center;
-      color: var(--muted);
-    }
-
-    .meta{
-      margin-top: 18px;
-      font-size: 13px;
-      color: var(--muted);
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    :focus-visible{
-      outline: 2px solid rgba(122,167,199,.7);
-      outline-offset: 3px;
-      border-radius: 12px;
-    }
-  </style>
+  <title>Juego 3D · Orbita el Cubo</title>
+  <meta name="description" content="Mini juego 3D con un cubo en órbita. Detén la rotación en el ángulo correcto para sumar puntos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="game.css" />
 </head>
 <body>
-  <main class="card">
-    <h1>Juego rápido: Adivina el número</h1>
-    <p>He pensado un número del <strong>1 al 20</strong>. ¿Puedes adivinarlo en menos de 5 intentos?</p>
-
-    <div class="row">
-      <input id="guess" type="number" min="1" max="20" placeholder="Tu número" />
-      <button id="try">Probar</button>
-      <button id="reset">Reiniciar</button>
+  <header class="page-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <span class="brand-name">Orbita el Cubo</span>
+          <span class="brand-role">Mini juego 3D</span>
+        </div>
+      </div>
+      <a class="button ghost" href="index.html">Volver al portfolio</a>
     </div>
+  </header>
 
-    <div class="status" id="status" role="status" aria-live="polite">
-      ¡Buena suerte!
-    </div>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Reflejos + precisión</p>
+        <h1>Detén el cubo cuando el frente esté alineado.</h1>
+        <p class="lead">
+          Haz clic o pulsa la barra espaciadora cuando el cubo esté “de frente”. Cuanto más cerca del ángulo perfecto,
+          más puntos obtienes.
+        </p>
+        <div class="stats">
+          <div>
+            <span class="stat-value" id="score">0</span>
+            <span class="stat-label">Puntaje</span>
+          </div>
+          <div>
+            <span class="stat-value" id="best">0</span>
+            <span class="stat-label">Mejor</span>
+          </div>
+          <div>
+            <span class="stat-value" id="round">1</span>
+            <span class="stat-label">Ronda</span>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="button primary" id="action">Capturar</button>
+          <button class="button ghost" id="reset">Reiniciar</button>
+        </div>
+      </div>
+      <div class="panel">
+        <canvas id="scene" width="520" height="420" aria-label="Cubo 3D en rotación" role="img"></canvas>
+        <div class="panel-footer">
+          <span id="status">Pulsa “Capturar” cuando el cubo esté alineado.</span>
+        </div>
+      </div>
+    </section>
 
-    <div class="meta">
-      <span>Intentos: <strong id="attempts">0</strong></span>
-      <span>Máximo: 5</span>
-      <a class="link" href="index.html">Volver</a>
-    </div>
+    <section class="instructions">
+      <div>
+        <h2>Cómo se puntúa</h2>
+        <ul>
+          <li>Ángulo perfecto (±5°): <strong>100 pts</strong>.</li>
+          <li>Muy cerca (±10°): <strong>70 pts</strong>.</li>
+          <li>Cerca (±18°): <strong>40 pts</strong>.</li>
+          <li>Fuera de rango: <strong>10 pts</strong> por participar.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Consejos</h2>
+        <ul>
+          <li>Observa la cara frontal: cuanto más simétrica se vea, mejor el ángulo.</li>
+          <li>El cubo acelera cada ronda. Mantén el ritmo.</li>
+          <li>Puedes jugar con ratón o con la barra espaciadora.</li>
+        </ul>
+      </div>
+    </section>
   </main>
 
-  <script>
-    const maxAttempts = 5;
-    let secretNumber = Math.floor(Math.random() * 20) + 1;
-    let attempts = 0;
-    const guessInput = document.getElementById('guess');
-    const status = document.getElementById('status');
-    const attemptsEl = document.getElementById('attempts');
-    const tryButton = document.getElementById('try');
-    const resetButton = document.getElementById('reset');
+  <footer class="page-footer">
+    <div class="container footer-inner">
+      <span>© <span id="y"></span> Gonzalo Combarros</span>
+      <span>Juego 3D construido con canvas</span>
+    </div>
+  </footer>
 
-    const setStatus = (message, tone = 'neutral') => {
-      status.textContent = message;
-      status.style.color = tone === 'good' ? '#c9f7c2' : tone === 'bad' ? '#f2b0b0' : 'var(--muted)';
-    };
-
-    const resetGame = () => {
-      secretNumber = Math.floor(Math.random() * 20) + 1;
-      attempts = 0;
-      attemptsEl.textContent = attempts;
-      guessInput.value = '';
-      guessInput.disabled = false;
-      tryButton.disabled = false;
-      setStatus('Nuevo número listo. ¡Inténtalo!');
-      guessInput.focus();
-    };
-
-    const checkGuess = () => {
-      const value = Number(guessInput.value);
-      if (!value || value < 1 || value > 20) {
-        setStatus('Introduce un número entre 1 y 20.', 'bad');
-        return;
-      }
-      attempts += 1;
-      attemptsEl.textContent = attempts;
-
-      if (value === secretNumber) {
-        setStatus(`¡Correcto! Era el ${secretNumber}.`, 'good');
-        guessInput.disabled = true;
-        tryButton.disabled = true;
-        return;
-      }
-
-      if (attempts >= maxAttempts) {
-        setStatus(`Se acabaron los intentos. Era el ${secretNumber}.`, 'bad');
-        guessInput.disabled = true;
-        tryButton.disabled = true;
-        return;
-      }
-
-      setStatus(value < secretNumber ? 'Más alto...' : 'Más bajo...', 'neutral');
-      guessInput.select();
-    };
-
-    tryButton.addEventListener('click', checkGuess);
-    resetButton.addEventListener('click', resetGame);
-    guessInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        checkGuess();
-      }
-    });
-  </script>
+  <script src="game.js"></script>
 </body>
 </html>
