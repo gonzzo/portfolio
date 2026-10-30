@@ -1,38 +1,108 @@
+// The runner's rules and clock are independent of the browser and renderer.
 export const GATES = {
-  AND: { name: 'AND', description: '1 si ambas entradas son 1.', inputs: 2, run: (a, b) => a && b },
-  OR: { name: 'OR', description: '1 si al menos una entrada es 1.', inputs: 2, run: (a, b) => a || b },
-  XOR: { name: 'XOR', description: '1 si las entradas son diferentes.', inputs: 2, run: (a, b) => a !== b },
-  NAND: { name: 'NAND', description: 'Invierte AND: 0 solo si ambas son 1.', inputs: 2, run: (a, b) => !(a && b) },
-  NOT: { name: 'NOT', description: 'Invierte una entrada: 0 ↔ 1.', inputs: 1, run: (a) => !a },
-  BUF: { name: 'BUF', description: 'Deja pasar la entrada sin cambiarla.', inputs: 1, run: (a) => a },
+  AND: { rule: 'La salida es 1 solo cuando A y B son 1.', run: (a, b) => a && b },
+  OR: { rule: 'La salida es 1 cuando al menos una entrada es 1.', run: (a, b) => a || b },
+  XOR: { rule: 'La salida es 1 cuando las dos entradas son diferentes.', run: (a, b) => a !== b },
+  NAND: { rule: 'La salida es 0 solo cuando A y B son 1.', run: (a, b) => !(a && b) },
+  NOR: { rule: 'La salida es 1 solo cuando A y B son 0.', run: (a, b) => !(a || b) },
+  XNOR: { rule: 'La salida es 1 cuando las dos entradas son iguales.', run: (a, b) => a === b },
 };
-const binary = ['AND', 'OR', 'XOR', 'NAND'];
-export const LEVELS = [
-  { title: 'Un acuerdo', subtitle: 'Los dos interruptores deben estar encendidos para abrir el paso.', inputs: ['A','B'], nodes: [{ id:'G1', sources:['A','B'], x:510, y:240 }], choices:['AND','OR','XOR'], target:({A,B})=>A&&B, hint:'La salida solo debe ser 1 en la fila A = 1, B = 1.' },
-  { title: 'Uno, pero no los dos', subtitle: 'Abre el paso cuando exactamente uno de los interruptores esté encendido.', inputs:['A','B'], nodes:[{ id:'G1',sources:['A','B'],x:510,y:240 }], choices:['AND','OR','XOR'], target:({A,B})=>A!==B, hint:'Busca una puerta que distinga entradas diferentes de entradas iguales.' },
-  { title: 'La excepción', subtitle: 'El paso debe abrirse siempre, excepto cuando las dos entradas sean 1.', inputs:['A','B'], nodes:[{ id:'G1',sources:['A','B'],x:510,y:240 }], choices:binary, target:({A,B})=>!(A&&B), hint:'Necesitas el comportamiento contrario a AND.' },
-  { title:'Cambiar de idea',subtitle:'Construye el mismo comportamiento del nivel anterior, esta vez en dos etapas.',inputs:['A','B'],nodes:[{id:'G1',sources:['A','B'],x:390,y:240},{id:'G2',sources:['G1'],x:650,y:240}],choices:['AND','OR','XOR','NOT','BUF'],target:({A,B})=>!(A&&B),hint:'Primero detecta si ambas entradas están activas. Después invierte el resultado.' },
-  { title:'Permiso de paso',subtitle:'C es el permiso general. Con C encendido, basta con activar A o B.',inputs:['A','B','C'],nodes:[{id:'G1',sources:['A','B'],x:390,y:190},{id:'G2',sources:['G1','C'],x:660,y:260}],choices:binary,target:({A,B,C})=>(A||B)&&C,hint:'Combina A y B con una puerta inclusiva. El resultado necesita también el permiso C.' },
-  { title:'Equilibrio impar',subtitle:'El paso se abre con un número impar de entradas encendidas: una o las tres.',inputs:['A','B','C'],nodes:[{id:'G1',sources:['A','B'],x:390,y:190},{id:'G2',sources:['G1','C'],x:660,y:260}],choices:binary,target:({A,B,C})=>(Number(A)+Number(B)+Number(C))%2===1,hint:'Una puerta que compara diferencias puede encadenarse para calcular la paridad.' },
-  { title:'Dos caminos',subtitle:'Abre si A y B están encendidos, o si B y C están encendidos. Una ruta basta.',inputs:['A','B','C'],nodes:[{id:'G1',sources:['A','B'],x:390,y:160},{id:'G2',sources:['B','C'],x:390,y:330},{id:'G3',sources:['G1','G2'],x:680,y:245}],choices:binary,target:({A,B,C})=>(A&&B)||(B&&C),hint:'Cada rama comprueba un par de entradas. La última puerta reúne ambas rutas.' },
-  { title:'La mayoría decide',subtitle:'El último paso: la salida debe ser 1 cuando al menos dos de las tres entradas sean 1.',inputs:['A','B','C'],nodes:[{id:'G1',sources:['A','B'],x:320,y:150},{id:'G2',sources:['A','B'],x:320,y:300},{id:'G3',sources:['G2','C'],x:555,y:300},{id:'G4',sources:['G1','G3'],x:770,y:230}],choices:binary,target:({A,B,C})=>Number(A)+Number(B)+Number(C)>=2,hint:'Una rama puede detectar A y B juntos. La otra detecta exactamente uno de ellos y exige C. Reúne las dos posibilidades.' },
-];
-export function combinations(inputs) {
-  return Array.from({length:2**inputs.length},(_,row)=>Object.fromEntries(inputs.map((key,i)=>[key,Boolean((row>>(inputs.length-i-1))&1)])));
-}
-export function evaluate(level, placements, input) {
-  const values={...input};
-  for(const node of level.nodes) {
-    const gate=GATES[placements[node.id]];
-    const args=node.sources.map(source=>values[source]);
-    values[node.id]=gate && gate.inputs===node.sources.length && args.every(value=>typeof value==='boolean') ? Boolean(gate.run(...args)) : null;
+const NAMES = Object.keys(GATES);
+export function shuffle(items, random = Math.random) {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
   }
-  return { values, output:values[level.nodes.at(-1).id] };
+  return result;
 }
-export function checkCircuit(level, placements) {
-  return combinations(level.inputs).map(input=>{
-    const {output}=evaluate(level,placements,input);
-    const target=Boolean(level.target(input));
-    return {input,output,target,pass:output===target};
-  });
+export function difficulty(round) {
+  const level = Math.min(5, 1 + Math.floor(round / 4));
+  const travelTime = Math.max(3.2, 6.2 - round * .16);
+  return { level, travelTime, readingTime: 1.3 + level * .25, speed: 6.2 / travelTime };
+}
+export function evaluateGate(name, input, mode = 0, fixed = 'XOR') {
+  const gate = GATES[name];
+  if (!gate) throw new Error(`Unknown gate: ${name}`);
+  const { A, B, C, D } = input;
+  if (mode === 1) return !gate.run(A, B);
+  if (mode === 2) return Boolean(gate.run(Boolean(GATES[fixed].run(A, B)), C));
+  if (mode === 3) return !(Boolean(gate.run(A, B)) !== C);
+  if (mode === 4) return !gate.run(A !== B, C || D);
+  return Boolean(gate.run(A, B));
+}
+export function generateChallenge(round, random = Math.random) {
+  const { level } = difficulty(round);
+  const mode = level - 1;
+  const inputNames = mode < 2 ? ['A', 'B'] : mode < 4 ? ['A', 'B', 'C'] : ['A', 'B', 'C', 'D'];
+  const input = Object.fromEntries(inputNames.map((name) => [name, random() >= .5]));
+  const target = NAMES[Math.floor(random() * NAMES.length)];
+  const fixed = ['AND', 'OR', 'XOR'][Math.floor(random() * 3)];
+  const output = evaluateGate(target, input, mode, fixed);
+  // All three choices are judged on the SAME visible input values and target.
+  // Choose distractors with the opposite output, so there is exactly one answer.
+  const distractors = NAMES.filter((name) => evaluateGate(name, input, mode, fixed) !== output);
+  const choices = shuffle([target, ...shuffle(distractors, random).slice(0, 2)], random);
+  return { target, choices, mode, level, inputNames, input, output, fixed,
+    title: '¿Qué puerta completa el circuito?',
+    label: `${inputNames.length} entradas · 1 incógnita` };
+}
+export function createRun(best = 0) {
+  return { status: 'ready', phase: 'reading', phaseTime: 0, elapsed: 0, distance: 0,
+    lane: 1, lives: 3, score: 0, best, round: 0, correct: 0, streak: 0,
+    challenge: null, outcome: null, gateProgress: 0 };
+}
+export function startRun(state, random = Math.random) {
+  Object.assign(state, createRun(state.best));
+  state.status = 'running';
+  state.challenge = generateChallenge(0, random);
+}
+export function selectLane(state, lane) {
+  if (state.status !== 'running' || !Number.isInteger(lane) || lane < 0 || lane > 2) return false;
+  state.lane = lane;
+  return true;
+}
+export function togglePause(state) {
+  if (state.status === 'running') state.status = 'paused';
+  else if (state.status === 'paused') state.status = 'running';
+}
+export function advance(state, seconds, random = Math.random) {
+  if (state.status !== 'running' || !Number.isFinite(seconds) || seconds <= 0) return;
+  // No catch-up collisions after a stalled frame or a suspended browser tab.
+  const dt = Math.min(seconds, .1);
+  const settings = difficulty(state.round);
+  state.elapsed += dt;
+  state.distance += dt * 100 * settings.speed;
+  state.phaseTime += dt;
+  if (state.phase === 'reading') {
+    if (state.phaseTime >= settings.readingTime) { state.phase = 'approach'; state.phaseTime = 0; }
+  } else if (state.phase === 'approach') {
+    state.gateProgress = Math.min(1, state.phaseTime / settings.travelTime);
+    if (state.gateProgress >= 1) {
+      const chosen = state.challenge.choices[state.lane];
+      const correct = chosen === state.challenge.target;
+      let points = 0;
+      if (correct) {
+        state.streak += 1;
+        state.correct += 1;
+        points = 100 + Math.min(state.streak - 1, 4) * 25;
+        state.score += points;
+        state.best = Math.max(state.best, state.score);
+      } else { state.lives -= 1; state.streak = 0; }
+      state.outcome = { correct, points, chosen, target: state.challenge.target, lane: state.lane };
+      state.round += 1;
+      state.phase = 'feedback';
+      state.phaseTime = 0;
+      if (state.lives === 0) state.status = 'over';
+    }
+  } else if (state.phase === 'feedback') {
+    state.gateProgress = 1 + state.phaseTime / 1.25 * .4;
+    if (state.phaseTime >= 1.25) {
+      state.challenge = generateChallenge(state.round, random);
+      state.phase = 'reading';
+      state.phaseTime = 0;
+      state.gateProgress = 0;
+      state.outcome = null;
+    }
+  }
 }

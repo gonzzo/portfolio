@@ -14,9 +14,15 @@ Open `index.html` through the server for the portfolio, or `game.html` for the g
 
 ## Logic Passage
 
-Select a gate, then select a circuit slot to place it. Toggle the inputs to explore the circuit. **Probar circuito** checks every truth-table row; all must match the target before the explorer can cross. Eight chambers introduce AND, OR, XOR, NAND and single-input NOT/BUF stages. Multiple valid solutions are accepted.
+An endless three-lane logic runner. The explorer moves continuously while three gate choices approach. Read the circuit above the scene, then choose the lane whose gate replaces the single `?` and produces the displayed output from the numbered inputs.
 
-Progress is saved locally in the browser. The game works without storage, supports keyboard controls, and respects reduced-motion preferences. On small screens, the circuit scrolls horizontally and a second set of slot buttons keeps placement accessible.
+- **↑ / ↓** or **W / S**: move one lane. **1 / 2 / 3**: choose top, middle, or bottom directly.
+- Touch or click the three lane buttons on mobile or desktop.
+- **P**: pause/resume. Leaving the browser also pauses the run.
+- A correct answer earns 100 points, with streak bonuses up to 200 per gate. A mistake removes one life. Losing all three lives ends the run and shows the score and replay button.
+- Speed increases as doors are passed. Five difficulty stages add preplaced gates and increase from two to four numbered inputs. Every generated circuit has exactly one valid answer among its three choices.
+
+The record is stored locally; the game also works when storage is unavailable. Reduced-motion mode removes decorative scrolling and bobbing while preserving the approaching doors needed for play. There is no backend or account requirement.
 
 Run the logic tests with Node.js 22 or newer:
 

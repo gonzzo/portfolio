@@ -4,56 +4,50 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#101e25" />
-  <meta name="description" content="Un juego de lógica y circuitos. Coloca las puertas correctas, comprueba las señales y abre un camino al otro lado." />
-  <title>Logic Passage — Un juego de circuitos</title>
+  <meta name="description" content="Un runner de lógica de tres carriles. Resuelve el acertijo, elige una puerta y sigue avanzando. Tres vidas. Cada vez más rápido." />
+  <title>Logic Passage — Corre. Piensa. Elige.</title>
   <link rel="stylesheet" href="game.css" />
   <script type="module" src="game.js"></script>
 </head>
 <body>
-  <header class="site-header wrap">
-    <a class="wordmark" href="index.html">Gonzalo Combarros <span>/ Playground</span></a>
-    <a class="back-link" href="index.html">Volver al portfolio <svg class="link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 19 5 5M5 19V5h14"/></svg></a>
-  </header>
+  <header class="site-header wrap"><a class="wordmark" href="index.html">Gonzalo Combarros <span>/ Playground</span></a><a class="back-link" href="index.html">Volver al portfolio <span aria-hidden="true">←</span></a></header>
   <main class="wrap">
-    <section class="intro" aria-labelledby="title">
-      <div><p class="eyebrow">An experiment in boolean thinking</p><h1 id="title">Logic Passage<span>.</span></h1></div>
-      <div class="intro-aside"><p>Conecta ideas.<br />Abre el camino.</p><button class="help-link" id="help-open">Cómo se juega <svg class="link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></button></div>
-    </section>
-    <noscript><p class="no-script">Activa JavaScript para jugar a Logic Passage.</p></noscript>
-    <div class="game-layout">
-      <section class="workspace" id="workspace" aria-label="Tablero de juego">
-        <div class="level-header"><div><p class="eyebrow" id="level-label">Cámara 01 / 08</p><h2 id="level-title">Un acuerdo</h2></div><div class="completion"><span id="completed-count">0</span><span>/ 08<br />resueltas</span></div></div>
-        <p id="objective" class="objective">Los dos interruptores deben estar encendidos para abrir el paso.</p>
-        <nav id="level-nav" class="level-nav" aria-label="Seleccionar nivel"></nav>
-        <div class="scene-shell">
-          <div class="scene-topline"><span><i class="live-dot"></i> Circuito interactivo</span><span id="scene-mode">En espera</span></div>
-          <div class="scene-scroll" tabindex="0" aria-label="Circuito. Desplázate horizontalmente en pantallas pequeñas.">
-            <div class="scene" id="scene">
-              <svg id="circuit" viewBox="0 0 1000 510" role="img" aria-label="Esquema del circuito y camino del explorador"></svg>
-              <div id="node-controls" class="node-controls"></div>
-            </div>
-          </div>
-          <div class="scene-bottomline"><span><i class="legend-on"></i> 1 · Señal activa <i class="legend-off"></i> 0 · Sin señal</span><span class="mobile-scroll">Desliza el circuito ↔</span><span class="scene-coordinate">LP / LAB — 001</span></div>
+    <section class="intro"><div><p class="eyebrow">Un runner para pensar deprisa</p><h1>Logic Passage<span>.</span></h1></div><p class="intro-copy">Tres caminos. Una respuesta.<br />No dejes de avanzar.</p></section>
+    <noscript><p class="no-script">Activa JavaScript para jugar.</p></noscript>
+    <section class="game" aria-label="Logic Passage, juego de tres carriles">
+      <div class="hud">
+        <div class="score-block"><span class="micro">Puntuación</span><strong id="score">00000</strong></div>
+        <div class="hud-stat"><span class="micro">Récord</span><span id="best">00000</span></div>
+        <div class="hud-stat"><span class="micro">Velocidad</span><span id="speed">1.00×</span></div>
+        <div class="hud-stat difficulty-stat"><span class="micro">Dificultad</span><span id="difficulty">01 / 05</span></div>
+        <div class="lives-block"><span class="micro">Vidas</span><div id="lives" role="img" aria-label="3 vidas de 3"><i></i><i></i><i></i></div></div>
+        <button id="pause-button" class="pause-button" aria-label="Pausar partida" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg></button>
+      </div>
+      <div class="riddle" id="riddle">
+        <div class="riddle-label"><span class="micro" id="question-number">Acertijo 01</span><span class="riddle-kind" id="riddle-kind">La regla</span></div>
+        <div class="riddle-content"><h2 id="riddle-title">Elige la puerta que cumple la regla.</h2><div class="circuit-puzzle" id="circuit-puzzle"></div><p class="puzzle-note">Entradas y salida fijas. Elige la puerta que sustituye a «?».</p></div>
+        <div class="countdown"><span id="timer-label">Listo para empezar</span><strong id="timer">—</strong></div>
+      </div>
+      <div class="arena" id="arena">
+        <canvas id="runner-canvas" role="img" aria-label="Explorador avanzando por tres carriles hacia las puertas lógicas. Usa los controles debajo del escenario."></canvas>
+        <div class="arena-corners" aria-hidden="true"><span>LP / ENDLESS LAB</span><span id="distance">0000 m</span></div>
+        <div class="lane-markers" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card" id="start-screen"><p class="micro">Una carrera de decisiones</p><h2>Corre.<br /> Piensa. Elige<span>.</span></h2><p>El escenario no se detiene. Lee el acertijo de arriba y cambia de carril para cruzar la puerta correcta.</p><div class="start-rules"><span><b>↑ ↓</b> Cambiar de carril</span><span><b>1 · 2 · 3</b> Elegir directamente</span><span><b>3 vidas</b> Un fallo, una menos</span></div><button class="primary-button" id="start-button">Empezar a correr <span aria-hidden="true">→</span></button><span class="overlay-note">También puedes tocar los tres controles de abajo.</span></div>
+          <div class="overlay-card" id="pause-screen" hidden><p class="micro">Un momento para respirar</p><h2>En pausa<span>.</span></h2><p>El reloj y las puertas te esperan.</p><button class="primary-button" id="resume-button">Seguir corriendo →</button><span class="overlay-note">P o espacio para continuar.</span></div>
+          <div class="overlay-card" id="end-screen" hidden><p class="micro">Fin del recorrido</p><h2>Hasta aquí<span>.</span></h2><div class="final-score"><span class="micro">Tu puntuación</span><strong id="final-score">0</strong></div><p id="final-summary"></p><p class="record-note" id="record-note" hidden>Un nuevo récord personal.</p><button class="primary-button" id="restart-button">Volver a jugar <span aria-hidden="true">→</span></button></div>
         </div>
-        <div class="input-controls"><span class="small-label">Explora las entradas</span><div id="input-buttons" class="input-buttons"></div><span class="input-tip">Pulsa para alternar 0 / 1</span></div>
-        <div class="toolbox-heading"><h3>Tu caja de puertas</h3><span id="placement-guide">Elige una puerta y colócala en G1.</span></div>
-        <div id="gate-palette" class="gate-palette" role="group" aria-label="Elegir puerta lógica"></div>
-        <div class="mobile-slots" id="mobile-slots" role="group" aria-label="Colocar en un hueco del circuito"></div>
-        <div class="actions"><button class="primary-button" id="test-button">Probar circuito <span aria-hidden="true">→</span></button><button class="secondary-button" id="reset-button">Vaciar</button><button class="hint-button" id="hint-button" aria-expanded="false" aria-controls="hint">Una pista</button></div>
-        <p id="hint" class="hint" hidden></p>
-        <div class="status-panel" id="status-panel"><span class="status-marker" aria-hidden="true">/</span><p id="status" role="status" aria-live="polite">Elige una puerta. Después, pulsa un hueco del circuito para colocarla.</p><button class="next-button" id="next-button" hidden>Siguiente cámara →</button></div>
-      </section>
-      <aside class="side-panel" aria-label="Tabla de verdad y guía">
-        <div class="side-heading"><span class="eyebrow">El objetivo</span><span class="table-badge" id="table-badge">4 casos</span></div>
-        <h2>La tabla<br /> marca el camino.</h2><p class="side-intro">Tu circuito debe coincidir con la columna <strong>Meta</strong> en todas las combinaciones. No basta con acertar una.</p>
-        <div class="table-wrap"><table id="truth-table"><caption class="sr-only">Entradas, salida del circuito y salida esperada</caption><thead></thead><tbody></tbody></table></div>
-        <div class="table-key"><span class="target-key"></span> Meta: el resultado que buscamos</div>
-        <div class="gate-note"><span class="eyebrow">Sobre tu mesa</span><div id="gate-detail"></div></div>
-        <div class="notebook"><span class="notebook-number">01 — 08</span><p>Una puerta cambia una señal.<br />Varias cambian lo posible.</p><span class="small-label">Sin reloj. Solo lógica.</span></div>
-      </aside>
-    </div>
-    <footer class="page-footer"><span>Diseñado para pensar, no para correr.</span><span>Gonzalo Combarros / <span id="y">2026</span></span></footer>
+      </div>
+      <div class="lane-controls" role="group" aria-label="Elige tu carril">
+        <button data-lane="0" aria-pressed="false" disabled><span class="lane-key">1 <span>↑</span></span><span class="lane-option"><span class="micro">Arriba</span><strong>—</strong></span><span class="gate-icon" aria-hidden="true"></span></button>
+        <button data-lane="1" aria-pressed="true" disabled><span class="lane-key">2 <span>↕</span></span><span class="lane-option"><span class="micro">Centro</span><strong>—</strong></span><span class="gate-icon" aria-hidden="true"></span></button>
+        <button data-lane="2" aria-pressed="false" disabled><span class="lane-key">3 <span>↓</span></span><span class="lane-option"><span class="micro">Abajo</span><strong>—</strong></span><span class="gate-icon" aria-hidden="true"></span></button>
+      </div>
+      <div class="game-bottom"><span><i></i> <span id="run-status">Preparado para correr</span></span><span>↑ ↓ / W S / 1 2 3 <b>·</b> P para pausar</span></div>
+    </section>
+    <section class="field-guide" aria-labelledby="guide-title"><div class="guide-intro"><p class="eyebrow">Manual de bolsillo</p><h2 id="guide-title">Cada puerta,<br /> una decisión.</h2><p>Acierta para sumar 100 puntos. Encadena aciertos para ganar hasta 200 por puerta. Un error cuesta una vida; el recorrido termina al perder las tres. Las puertas NOT ya colocadas invierten 0 y 1.</p></div><div class="gate-guide" id="gate-guide"></div></section>
+    <footer class="page-footer"><span>Hecho de lógica. Movido por curiosidad.</span><span>Gonzalo Combarros / <span id="y">2026</span></span></footer>
   </main>
-  <dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-top"><span class="eyebrow">Manual de campo / 01</span><button id="help-close" aria-label="Cerrar instrucciones">×</button></div><h2 id="help-title">Un camino hecho<br />de decisiones.</h2><p>Tu explorador espera al inicio. Para abrir sus puertas, construye un circuito que produzca exactamente los resultados de la tabla.</p><ol><li><strong>Elige una puerta</strong> en la caja de herramientas.</li><li><strong>Colócala en un hueco</strong> G1, G2… Puedes reemplazarla tantas veces como quieras.</li><li><strong>Explora las señales</strong> cambiando A, B o C. El color y el número indican si cada conexión vale 0 o 1.</li><li><strong>Prueba el circuito.</strong> Se comprobarán todas las filas. Si coinciden, se abre el paso y tu explorador cruza.</li></ol><p class="dialog-note">AND necesita dos unos. OR necesita al menos uno. XOR necesita entradas diferentes. NOT invierte una entrada. Los huecos de una entrada solo admiten NOT o BUF.</p><button class="primary-button" id="help-start">Vamos al circuito →</button></dialog>
 </body>
 </html>
