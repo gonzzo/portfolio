@@ -1,4 +1,4 @@
-import { GATES, createRun, startRun, selectLane, togglePause, advance, difficulty, generateChallenge } from './logic-engine.js';
+import { GATES, createRun, startRun, selectLane, togglePause, advance, difficulty, generateChallenge } from './logic-engine.js?v=runner-1';
 
 const $ = (id) => document.getElementById(id);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
