@@ -1,6 +1,7 @@
 import { GATES, createRun, startRun, selectLane, togglePause, advance, difficulty, generateChallenge } from './logic-engine.js?v=runner-1';
 
 const $ = (id) => document.getElementById(id);
+const { t } = window.siteI18n;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const BEST_KEY = 'logic-passage-runner-best-v1';
 let savedBest = 0;
@@ -65,22 +66,25 @@ function puzzleDiagram(challenge) {
     return `<g class="puzzle-gate ${label === '?' ? 'unknown' : ''}"><rect x="${x-36}" y="${y-26}" width="72" height="52" rx="2"/><text x="${x}" y="${y+(label === '?' ? 11 : 7)}" text-anchor="middle">${label}</text></g>`;
   }).join('');
   const [x,y] = positions.Y;
-  const description = `Entradas: ${challenge.inputNames.map((name) => `${name} igual a ${Number(input[name])}`).join(', ')}. Salida Y igual a ${Number(output)}. ${['A y B entran en la puerta desconocida.', 'A y B entran en la puerta desconocida y después en NOT.', `A y B pasan por ${fixed}; su resultado y C entran en la puerta desconocida.`, 'A y B entran en la puerta desconocida. Su resultado y C pasan por XOR y después por NOT.', 'A y B pasan por XOR; C y D pasan por OR. Ambos resultados entran en la puerta desconocida y después en NOT.'][mode]}`;
+  const description = t('game.diagram', {
+    inputs: challenge.inputNames.map((name) => t('game.inputValue', { name, value: Number(input[name]) })).join(', '),
+    output: Number(output), circuit: t(`game.diagram.${mode}`, { gate: fixed }),
+  });
   $('circuit-puzzle').innerHTML = `<svg viewBox="0 0 660 210" role="img" aria-label="${description}"><g class="puzzle-wires">${wiring}</g>${terminals}${gates}<g class="puzzle-terminal output ${output ? 'active' : ''}"><rect x="${x-34}" y="${y-22}" width="78" height="44" rx="2"/><text x="${x+5}" y="${y+8}" text-anchor="middle">Y=${Number(output)}</text></g></svg>`;
 }
 
-function updateChallenge() {
-  if (displayedChallenge === state.challenge || !state.challenge) return;
+function updateChallenge(force = false) {
+  if ((displayedChallenge === state.challenge && !force) || !state.challenge) return;
   displayedChallenge = state.challenge;
-  $('question-number').textContent = `Acertijo ${String(state.round + 1).padStart(2, '0')}`;
-  $('riddle-kind').textContent = state.challenge.label;
-  $('riddle-title').textContent = state.challenge.title;
+  $('question-number').textContent = t('game.question', { number: String(state.round + 1).padStart(2, '0') });
+  $('riddle-kind').textContent = t('game.kind', { count: state.challenge.inputNames.length });
+  $('riddle-title').textContent = t('game.puzzleTitle');
   puzzleDiagram(state.challenge);
   laneButtons.forEach((button, i) => {
     const gate = state.challenge.choices[i];
     button.querySelector('strong').textContent = gate;
     button.querySelector('.gate-icon').innerHTML = gateSymbol(gate);
-    button.setAttribute('aria-label', `${['Arriba','Centro','Abajo'][i]}: puerta ${gate}. Tecla ${i+1}`);
+    button.setAttribute('aria-label', t('game.laneLabel', { lane: t(['game.top', 'game.middle', 'game.bottom'][i]), gate, key: i + 1 }));
   });
 }
 function saveBest() {
@@ -88,8 +92,8 @@ function saveBest() {
   savedBest = state.best;
   try { localStorage.setItem(BEST_KEY, String(savedBest)); } catch { /* Keep playing without persistence. */ }
 }
-function updateUI() {
-  updateChallenge();
+function updateUI(force = false) {
+  updateChallenge(force);
   const settings = difficulty(state.round);
   if (state.score !== previousScore) {
     $('score').textContent = String(state.score).padStart(5,'0');
@@ -99,30 +103,30 @@ function updateUI() {
   }
   $('speed').textContent = `${settings.speed.toFixed(2)}×`;
   $('difficulty').textContent = `${String(settings.level).padStart(2,'0')} / 05`;
-  $('lives').setAttribute('aria-label', `${state.lives} ${state.lives === 1 ? 'vida' : 'vidas'} de 3`);
+  $('lives').setAttribute('aria-label', t(state.lives === 1 ? 'game.livesOne' : 'game.livesMany', { count: state.lives }));
   [...$('lives').children].forEach((life,i) => life.classList.toggle('lost', i >= state.lives));
   laneButtons.forEach((button,i) => { button.setAttribute('aria-pressed', String(i === state.lane)); button.disabled = state.status !== 'running'; });
   $('pause-button').disabled = state.status === 'ready' || state.status === 'over';
   $('pause-button').innerHTML = state.status === 'paused' ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 10 7-10 7Z"/></svg>' : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg>';
-  $('pause-button').setAttribute('aria-label', state.status === 'paused' ? 'Continuar partida' : 'Pausar partida');
+  $('pause-button').setAttribute('aria-label', t(state.status === 'paused' ? 'game.resumeAction' : 'game.pauseAction'));
   $('distance').textContent = `${String(Math.floor(state.distance)).padStart(4,'0')} m`;
   if (state.status === 'running') {
     const feedbackPhase = state.phase === 'feedback';
     const seconds = state.phase === 'reading' ? settings.readingTime - state.phaseTime : state.phase === 'approach' ? settings.travelTime - state.phaseTime : 0;
-    $('timer-label').textContent = feedbackPhase ? 'Siguiente reto' : state.phase === 'reading' ? 'Puertas en' : 'Elige en';
+    $('timer-label').textContent = t(feedbackPhase ? 'game.next' : state.phase === 'reading' ? 'game.gatesIn' : 'game.chooseIn');
     $('timer').textContent = feedbackPhase ? '→' : `${Math.max(0,seconds).toFixed(1)}s`;
     document.querySelector('.countdown').classList.toggle('urgent', state.phase === 'approach' && seconds < 1.5);
-    $('run-status').textContent = `En marcha · ${state.correct} ${state.correct === 1 ? 'acierto' : 'aciertos'} · Dificultad ${settings.level}/5`;
+    $('run-status').textContent = t('game.running', { correct: state.correct, answers: t(state.correct === 1 ? 'game.correctOne' : 'game.correctMany'), level: settings.level });
   }
-  if (state.round !== previousRound) {
+  if (state.round !== previousRound || force) {
     previousRound = state.round;
     if (state.outcome) {
-      $('feedback').textContent = state.outcome.correct ? `+${state.outcome.points} · ${state.outcome.target} · ¡Sigue así!` : `−1 vida · La puerta era ${state.outcome.target}`;
+      $('feedback').textContent = t(state.outcome.correct ? 'game.feedbackCorrect' : 'game.feedbackWrong', { points: state.outcome.points, gate: state.outcome.target });
       $('feedback').classList.toggle('error', !state.outcome.correct);
     }
   }
   if (!state.outcome) $('feedback').textContent = '';
-  if (previousStatus !== state.status) {
+  if (previousStatus !== state.status || force) {
     previousStatus = state.status;
     const over = state.status === 'over';
     $('overlay').hidden = state.status === 'running';
@@ -131,14 +135,18 @@ function updateUI() {
     $('end-screen').hidden = !over;
     if (over) {
       $('final-score').textContent = state.score;
-      $('final-summary').textContent = `${state.correct} ${state.correct === 1 ? 'acierto' : 'aciertos'} en ${state.round} puertas · ${Math.floor(state.distance)} m recorridos.`;
+      $('final-summary').textContent = t('game.summary', { correct: state.correct, answers: t(state.correct === 1 ? 'game.correctOne' : 'game.correctMany'), round: state.round, distance: Math.floor(state.distance) });
       $('record-note').hidden = state.score <= runStartingBest;
-      $('run-status').textContent = 'Recorrido terminado · 0 vidas';
-      $('timer-label').textContent = 'Fin de partida'; $('timer').textContent = '—';
-      $('restart-button').focus({preventScroll:true});
+      $('run-status').textContent = t('game.finished');
+      $('timer-label').textContent = t('game.gameOver'); $('timer').textContent = '—';
+      if (!force) $('restart-button').focus({preventScroll:true});
     } else if (state.status === 'paused') {
-      $('run-status').textContent = 'En pausa';
-      $('resume-button').focus({preventScroll:true});
+      $('run-status').textContent = t('game.paused');
+      $('timer-label').textContent = t('game.paused');
+      if (!force) $('resume-button').focus({preventScroll:true});
+    } else if (state.status === 'ready') {
+      $('run-status').textContent = t('game.ready');
+      $('timer-label').textContent = t('game.timerReady');
     }
   }
 }
@@ -162,7 +170,7 @@ $('resume-button').addEventListener('click', pause);
 $('pause-button').addEventListener('click', pause);
 laneButtons.forEach((button) => button.addEventListener('click', () => choose(Number(button.dataset.lane))));
 window.addEventListener('keydown', (event) => {
-  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('a,input,textarea,select')) return;
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('a,input,textarea,select,[data-set-lang]')) return;
   const key = event.key.toLowerCase();
   if (['arrowup','arrowdown','w','s','1','2','3'].includes(key) && state.status === 'running') {
     event.preventDefault();
@@ -294,7 +302,15 @@ function frame(now) {
   if(now-lastUI>50 || state.status!==previousStatus || state.challenge!==displayedChallenge || state.round!==previousRound){updateUI();lastUI=now;}
   requestAnimationFrame(frame);
 }
-$('gate-guide').innerHTML=Object.entries(GATES).map(([name,gate])=>`<article class="guide-gate"><h3>${gateSymbol(name)}${name}</h3><p>${gate.rule}</p></article>`).join('');
+function updateGuide() {
+  $('gate-guide').innerHTML = Object.keys(GATES).map((name) => `<article class="guide-gate"><h3>${gateSymbol(name)}${name}</h3><p>${t(`game.gate.${name}`)}</p></article>`).join('');
+}
+window.addEventListener('site:languagechange', () => {
+  // Translate the current puzzle and overlays without changing the run or focus.
+  updateGuide();
+  updateUI(true);
+});
+updateGuide();
 $('y').textContent=new Date().getFullYear();
 $('best').textContent=String(savedBest).padStart(5,'0');
 resize();updateUI();requestAnimationFrame(frame);

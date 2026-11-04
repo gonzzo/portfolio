@@ -31,6 +31,71 @@ if (!motionPreference.matches && 'IntersectionObserver' in window) {
 }
 motionPreference.addEventListener('change', revealAll);
 
+// The homepage stays buildless: Remotion is only used to author the MP4.
+const heroVideo = document.querySelector('.hero-video');
+if (heroVideo) {
+  const source = heroVideo.querySelector('source');
+  let mediaFailed = false;
+  heroVideo.muted = true;
+  const heroBounds = heroVideo.closest('.hero').getBoundingClientRect();
+  let heroInView = heroBounds.bottom > 0 && heroBounds.top < window.innerHeight;
+
+  const shouldPlay = () => !mediaFailed && heroInView && !document.hidden;
+
+  function stopInteractionRetry() {
+    window.removeEventListener('pointerdown', syncBackground);
+    window.removeEventListener('keydown', syncBackground);
+  }
+
+  function syncBackground() {
+    if (!shouldPlay()) {
+      heroVideo.pause();
+      return;
+    }
+    const attempt = heroVideo.play();
+    attempt?.then(() => {
+      // Visibility or preferences can change while play() is pending.
+      if (!shouldPlay()) heroVideo.pause();
+      else {
+        heroVideo.classList.add('is-ready');
+        stopInteractionRetry();
+      }
+    }).catch((error) => {
+      // If the browser blocks autoplay, retry on the first normal interaction.
+      if (error.name === 'NotAllowedError') {
+        window.addEventListener('pointerdown', syncBackground, { passive: true });
+        window.addEventListener('keydown', syncBackground);
+      }
+    });
+  }
+
+  heroVideo.addEventListener('playing', () => {
+    if (!shouldPlay()) {
+      heroVideo.pause();
+      return;
+    }
+    heroVideo.classList.add('is-ready');
+    stopInteractionRetry();
+  });
+  function usePoster() {
+    mediaFailed = true;
+    heroVideo.pause();
+    heroVideo.classList.remove('is-ready');
+    stopInteractionRetry();
+  }
+  heroVideo.addEventListener('error', usePoster);
+  source.addEventListener('error', usePoster);
+  document.addEventListener('visibilitychange', syncBackground);
+  if ('IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      heroInView = entry.isIntersecting;
+      syncBackground();
+    });
+    heroObserver.observe(heroVideo.closest('.hero'));
+  }
+  syncBackground();
+}
+
 const progress = document.querySelector('.reading-progress');
 let scrollFramePending = false;
 function updateProgress() {

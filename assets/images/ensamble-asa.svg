@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <mask id="encastre-asa-cuts" x="0" y="0" width="128" height="128" maskUnits="userSpaceOnUse">
+      <rect width="128" height="128" fill="white"/>
+      <g fill="none" stroke="black" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+        <path d="M12 73h8v-9h4v-5h6v5h4v9h9"/>
+        <path d="M73 10v7H57v7h14v7H58v8"/>
+        <path d="M85 73h9v-9h4v-5h6v5h4v9h8"/>
+      </g>
+    </mask>
+  </defs>
+  <path d="M64 10 110.765 37v54L64 118 17.235 91V37ZM64 33 90.847 48.5v31L64 95 37.153 79.5v-31Z" fill="#384e6b" fill-rule="evenodd" mask="url(#encastre-asa-cuts)"/>
+</svg>
