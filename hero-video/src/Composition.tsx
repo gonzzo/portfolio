@@ -7,7 +7,7 @@ import {
 } from "remotion";
 
 const paper = "#f5f4ef";
-const ink = "#728797";
+const ink = "#52697e";
 const blue = "#384e6b";
 
 // Every motion completes an integer number of cycles for a seamless loop.
@@ -40,18 +40,18 @@ const TraceField = () => {
           1;
         return (
           <g key={d}>
-            <path d={d} stroke={ink} strokeWidth="1.3" opacity=".42" />
+            <path d={d} stroke={ink} strokeWidth="3" opacity=".7" />
             <path
               d={d}
               pathLength={1}
               stroke={blue}
-              strokeWidth="3"
-              strokeDasharray=".065 .935"
+              strokeWidth="6"
+              strokeDasharray=".12 .88"
               strokeDashoffset={-progress}
               opacity={interpolate(
                 progress,
                 [0, 0.12, 0.83, 1],
-                [0, 0.85, 0.85, 0],
+                [0, 1, 1, 0],
               )}
             />
           </g>
@@ -74,11 +74,11 @@ const Processor = () => {
         rx="10"
         fill={paper}
         stroke={ink}
-        strokeWidth="1"
-        opacity=".45"
+        strokeWidth="2"
+        opacity=".7"
       />
       {Array.from({ length: 8 }, (_, index) => (
-        <g key={index} stroke={ink} strokeWidth="2" opacity=".7">
+        <g key={index} stroke={ink} strokeWidth="3" opacity=".9">
           <path
             d={`M 976 ${278 + index * 14} h -16 M 1104 ${278 + index * 14} h 16`}
           />
@@ -95,7 +95,7 @@ const Processor = () => {
         rx="6"
         fill="#e8ebe7"
         stroke={ink}
-        strokeWidth="1.8"
+        strokeWidth="2.8"
       />
       <rect
         x="987"
@@ -105,14 +105,14 @@ const Processor = () => {
         rx="3"
         fill={paper}
         stroke={ink}
-        strokeWidth=".7"
+        strokeWidth="1.4"
       />
       <path
         d="M 1006 310 h 15 v -15 h 38 v 15 h 15 v 38 h -15 v 15 h -38 v -15 h -15 Z"
         fill="none"
         stroke={blue}
-        strokeWidth="1.2"
-        opacity=".6"
+        strokeWidth="2.4"
+        opacity=".85"
       />
       <rect
         x="1021"
@@ -124,7 +124,7 @@ const Processor = () => {
         opacity={interpolate(
           Math.cos((frame / durationInFrames) * Math.PI * 8),
           [-1, 1],
-          [0.035, 0.16],
+          [0.08, 0.32],
         )}
       />
       <circle cx="1081" cy="287" r="3" fill={blue} opacity=".65" />
@@ -155,7 +155,8 @@ const Sensor = () => {
         rx="8"
         fill={paper}
         stroke={ink}
-        opacity=".4"
+        strokeWidth="1.8"
+        opacity=".65"
       />
       <path
         d="M 1174 546 H 1414 M 1234 512 V 580 M 1294 512 V 580 M 1354 512 V 580"
@@ -168,8 +169,8 @@ const Sensor = () => {
         d={waveform}
         fill="none"
         stroke={blue}
-        strokeWidth="1.8"
-        opacity=".72"
+        strokeWidth="3.6"
+        opacity="1"
       />
     </g>
   );
@@ -185,8 +186,8 @@ const Connectivity = () => {
         cy="176"
         r="5"
         fill={paper}
-        strokeWidth="1.5"
-        opacity=".75"
+        strokeWidth="2.5"
+        opacity=".9"
       />
       {[0, 1, 2].map((index) => {
         const phase = ((frame / durationInFrames) * 3 + index / 3) % 1;
@@ -195,8 +196,8 @@ const Connectivity = () => {
           <path
             key={index}
             d={`M ${1340 - radius * 0.72} ${176 - radius * 0.7} A ${radius} ${radius} 0 0 1 ${1340 + radius * 0.72} ${176 - radius * 0.7}`}
-            strokeWidth="1.3"
-            opacity={interpolate(phase, [0, 0.2, 1], [0, 0.65, 0])}
+            strokeWidth="2.6"
+            opacity={interpolate(phase, [0, 0.2, 1], [0, 0.9, 0])}
           />
         );
       })}
